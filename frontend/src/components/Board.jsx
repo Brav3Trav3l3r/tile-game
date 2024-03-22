@@ -15,7 +15,7 @@ const safeTiles = (() => {
   return safe;
 })();
 
-export default function Board() {
+export default function Board({ scoreTiles }) {
   const [dangerTiles, setDangerTiles] = useRecoilState(dangerTilesState);
   const speed = useRecoilValue(gameSpeedState);
   const [game, setGame] = useRecoilState(gameState);
@@ -71,17 +71,6 @@ export default function Board() {
 
   useInterval(handleTileUpdate, speed, game.paused);
 
-  const scoreTiles = [
-    { x: 2, y: 0 },
-    { x: 3, y: 1 },
-    { x: 4, y: 2 },
-    { x: 5, y: 3 },
-    { x: 6, y: 4 },
-    { x: 7, y: 5 },
-    { x: 8, y: 6 },
-    { x: 9, y: 7 },
-  ];
-
   const handleScore = (action) => {
     if (action == "add") {
       setGame((prev) => ({ ...prev, score: prev.score + 10 }));
@@ -93,56 +82,62 @@ export default function Board() {
   };
 
   return (
-    <div className={styles.board}>
-      <div className="safe">
-        {safeTiles?.map((tile, index) => {
-          const xOffset = tile.x * 40;
-          const yOffset = tile.y * 40;
+    <>
+      {scoreTiles ? (
+        <div className={styles.board}>
+          <div className="safe">
+            {safeTiles?.map((tile, index) => {
+              const xOffset = tile.x * 40;
+              const yOffset = tile.y * 40;
 
-          return (
-            <Tile
-              onClick={handleScore}
-              type={"safe"}
-              key={index}
-              x={xOffset}
-              y={yOffset}
-            />
-          );
-        })}
-      </div>
-      <div className="score"></div>
-      <div className="score">
-        {scoreTiles.map((tile, index) => {
-          const xOffset = tile.x * 40;
-          const yOffset = tile.y * 40;
+              return (
+                <Tile
+                  onClick={handleScore}
+                  type={"safe"}
+                  key={index}
+                  x={xOffset}
+                  y={yOffset}
+                />
+              );
+            })}
+          </div>
+          <div className="score"></div>
+          <div className="score">
+            {scoreTiles.map((tile, index) => {
+              const xOffset = tile.x * 40;
+              const yOffset = tile.y * 40;
 
-          return (
-            <Tile
-              onClick={() => handleScore("add")}
-              type={"score"}
-              key={index}
-              x={xOffset}
-              y={yOffset}
-            />
-          );
-        })}
-      </div>
-      <div className="danger">
-        {dangerTiles.tiles.map((tile, index) => {
-          const xOffset = tile.x * 40;
-          const yOffset = tile.y * 40;
+              return (
+                <Tile
+                  onClick={() => handleScore("add")}
+                  type={"score"}
+                  key={index}
+                  x={xOffset}
+                  y={yOffset}
+                />
+              );
+            })}
+          </div>
+          <div className="danger">
+            {dangerTiles.tiles.map((tile, index) => {
+              const xOffset = tile.x * 40;
+              const yOffset = tile.y * 40;
 
-          return (
-            <Tile
-              onClick={() => handleScore("subtract")}
-              type={"danger"}
-              key={index}
-              x={xOffset}
-              y={yOffset}
-            />
-          );
-        })}
-      </div>
-    </div>
+              return (
+                <Tile
+                  onClick={() => handleScore("subtract")}
+                  type={"danger"}
+                  key={index}
+                  x={xOffset}
+                  y={yOffset}
+                />
+              );
+            })}
+          </div>
+        </div>
+      ) : (
+        <p>Loading tiles...</p>
+      )}
+    </>
   );
 }

@@ -2,7 +2,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { gameSpeedState, gameState } from "../store/atoms";
 import styles from "./styles/Controls.module.css";
 
-export default function Controls() {
+export default function Controls({ fetchScoreTiles }) {
   const [speed, setSpeed] = useRecoilState(gameSpeedState);
   const [game, setGame] = useRecoilState(gameState);
   const resetGame = useResetRecoilState(gameState);
@@ -35,6 +35,7 @@ export default function Controls() {
         <div className={`${styles.mainRect} ${styles.rect}`}>
           <button
             onClick={() => {
+              fetchScoreTiles();
               resetGame();
               resetSpeed();
             }}
