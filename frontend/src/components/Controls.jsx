@@ -40,14 +40,14 @@ export default function Controls({ fetchScoreTiles }) {
               resetSpeed();
             }}
           >
-            Reset
+            RESET
           </button>
           <button
             onClick={() =>
               setGame((prev) => ({ ...prev, paused: !prev.paused }))
             }
           >
-            Play/Pause
+            PLAY / PAUSE
           </button>
         </div>
         <div className={styles.rect}></div>
