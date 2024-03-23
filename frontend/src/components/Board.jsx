@@ -82,62 +82,56 @@ export default function Board({ scoreTiles }) {
   };
 
   return (
-    <>
-      {scoreTiles ? (
-        <div className={styles.board}>
-          <div className="safe">
-            {safeTiles?.map((tile, index) => {
-              const xOffset = tile.x * 40;
-              const yOffset = tile.y * 40;
+    <div className={styles.board}>
+      <div className="safe">
+        {safeTiles?.map((tile, index) => {
+          const xOffset = tile.x * 40;
+          const yOffset = tile.y * 40;
 
-              return (
-                <Tile
-                  onClick={handleScore}
-                  type={"safe"}
-                  key={index}
-                  x={xOffset}
-                  y={yOffset}
-                />
-              );
-            })}
-          </div>
-          <div className="score"></div>
-          <div className="score">
-            {scoreTiles.map((tile, index) => {
-              const xOffset = tile.x * 40;
-              const yOffset = tile.y * 40;
+          return (
+            <Tile
+              onClick={handleScore}
+              type={"safe"}
+              key={index}
+              x={xOffset}
+              y={yOffset}
+            />
+          );
+        })}
+      </div>
+      <div className="score"></div>
+      <div className="score">
+        {scoreTiles.map((tile, index) => {
+          const xOffset = tile.x * 40;
+          const yOffset = tile.y * 40;
 
-              return (
-                <Tile
-                  onClick={() => handleScore("add")}
-                  type={"score"}
-                  key={index}
-                  x={xOffset}
-                  y={yOffset}
-                />
-              );
-            })}
-          </div>
-          <div className="danger">
-            {dangerTiles.tiles.map((tile, index) => {
-              const xOffset = tile.x * 40;
-              const yOffset = tile.y * 40;
+          return (
+            <Tile
+              onClick={() => handleScore("add")}
+              type={"score"}
+              key={index}
+              x={xOffset}
+              y={yOffset}
+            />
+          );
+        })}
+      </div>
+      <div className="danger">
+        {dangerTiles.tiles.map((tile, index) => {
+          const xOffset = tile.x * 40;
+          const yOffset = tile.y * 40;
 
-              return (
-                <Tile
-                  onClick={() => handleScore("subtract")}
-                  type={"danger"}
-                  key={index}
-                  x={xOffset}
-                  y={yOffset}
-                />
-              );
-            })}
-          </div>
-        </div>
-      ) : (
-        <p>Loading tiles...</p>
-      )}
-    </>
+          return (
+            <Tile
+              onClick={() => handleScore("subtract")}
+              type={"danger"}
+              key={index}
+              x={xOffset}
+              y={yOffset}
+            />
+          );
+        })}
+      </div>
+    </div>
   );
 }

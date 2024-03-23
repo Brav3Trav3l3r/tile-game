@@ -4,6 +4,7 @@ import Board from "./components/Board";
 import Controls from "./components/Controls";
 import logo from "./assets/tileTrek_logo.png";
 import { useCallback, useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 
 const fallbackScoreTiles = [
   { x: 2, y: 0 },
@@ -31,6 +32,7 @@ function App() {
       const resData = await res.json();
       setScoreTiles(resData.safeKeys);
     } catch (error) {
+      toast.error(error.message);
       console.log(error.message);
     }
   }, []);
@@ -40,19 +42,23 @@ function App() {
   }, [fetchScoreTiles]);
 
   return (
-    <RecoilRoot>
-      <div className={styles.container}>
-        <div className={styles.logo}>
-          <img src={logo} alt="" />
+    <>
+      <Toaster position="top-right" reverseOrder={false} />
+
+      <RecoilRoot>
+        <div className={styles.container}>
+          <div className={styles.logo}>
+            <img src={logo} alt="" />
+          </div>
+          <div className={styles.board}>
+            {scoreTiles ? <Board scoreTiles={scoreTiles} /> : <p>Loading...</p>}
+          </div>
+          <div className={styles.controls}>
+            <Controls fetchScoreTiles={fetchScoreTiles} />
+          </div>
         </div>
-        <div className={styles.board}>
-          <Board scoreTiles={scoreTiles} />
-        </div>
-        <div className={styles.controls}>
-          <Controls fetchScoreTiles={fetchScoreTiles} />
-        </div>
-      </div>
-    </RecoilRoot>
+      </RecoilRoot>
+    </>
   );
 }
 
